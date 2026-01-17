@@ -3,11 +3,11 @@
 namespace App\Http\Controllers\api;
 
 use App\Http\Controllers\Controller;
-use App\Models\location;
+use App\Models\Location;
 use App\Http\Requests\StorelocationRequest;
 use App\Http\Requests\UpdatelocationRequest;
 
-class locationcontroller extends Controller
+class LocationController extends Controller
 {
     /**
      * Display a listing of the resource.

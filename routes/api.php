@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\GoodController;
-use App\Http\Controllers\api\locationcontroller;
+use App\Http\Controllers\api\LocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
