@@ -14,13 +14,14 @@ class LocationController extends Controller
      */
     public function index()
     {
+        return Location::all();
         //
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StorelocationRequest $request)
+    public function store(StoreLocationRequest $request)
     {
         //
     }
@@ -28,7 +29,7 @@ class LocationController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(location $location)
+    public function show(Location $location)
     {
         //
     }
@@ -36,7 +37,7 @@ class LocationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdatelocationRequest $request, location $location)
+    public function update(UpdateLocationRequest $request, Location $location)
     {
         //
     }
@@ -44,7 +45,7 @@ class LocationController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(location $location)
+    public function destroy(Location $location)
     {
         //
     }
