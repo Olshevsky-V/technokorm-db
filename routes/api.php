@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\api\AnimalController;
+use App\Http\Controllers\api\CategoryController;
 use App\Http\Controllers\api\GoodController;
 use App\Http\Controllers\api\LocationController;
 use Illuminate\Http\Request;
@@ -23,3 +25,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/goods', [GoodController::class,'index'])->name('goods');
 
 Route::get('/locations', [LocationController::class, 'index'])->name('locations');
+
+Route::get('/categories', [CategoryController::class,'index'])->name('categories');
+
+Route::get('/animals', [AnimalController::class,'index'])->name('animals');
