@@ -10,4 +10,6 @@ class Animal extends Model
     use HasFactory;
 
     protected $table = "animals";
+
+    protected $fillable = ['Data', 'Name', 'Description', 'img'];
 }

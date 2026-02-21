@@ -9,4 +9,6 @@ class Good extends Model
 {
     use HasFactory;
     protected $table = "goods";
+
+    protected $fillable = ['name', 'categories', 'tags', 'image', 'price', 'timestamps'];
 }
