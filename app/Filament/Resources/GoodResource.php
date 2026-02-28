@@ -12,6 +12,7 @@ use Filament\Tables;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use function Laravel\Prompts\multiselect;
 
 class GoodResource extends Resource
 {
@@ -26,17 +27,25 @@ class GoodResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('categories')
+                Forms\Components\Select::make('categories')
+                    ->options(
+                array_merge(
+                 //[0 => 'Без категории'],
+                        \App\Models\Category::query()->pluck('name', 'id')->toArray()
+                        )
+                    )
+                    ->multiple()
                     ->required(),
+                    
+                    
                 Forms\Components\Textarea::make('tags')
                     ->required()
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
-                    ->image()
-                    ->required(),
+                    ->image(),
                 Forms\Components\TextInput::make('price')
                     ->numeric()
-                    ->prefix('$'),
+                    ->prefix('Р'),
             ]);
     }
 
@@ -87,4 +96,25 @@ class GoodResource extends Resource
             'edit' => Pages\EditGood::route('/{record}/edit'),
         ];
     }
+
+protected function mutateFormData(&$data): void
+{
+    // Предполагая, что categories, tags, image могут быть массивами
+    if (isset($data['categories']) && is_array($data['categories'])) {
+        $data['categories'] = json_encode($data['categories']);
+    }
+
+    if (isset($data['tags']) && is_array($data['tags'])) {
+        $data['tags'] = json_encode($data['tags']);
+    }
+
+    if (isset($data['image']) && is_array($data['image'])) {
+        $data['image'] = json_encode($data['image']);
+    }
+
+    // Остальной код...
+    if (!in_array(0, $data['categories'] ?? [], true)) {
+        $data['categories'][] = 0;
+    }
+}
 }

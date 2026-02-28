@@ -12,7 +12,7 @@ class CreateGoodsTable extends Migration
             $table->string('name');
             $table->json('categories'); // JSON для массива категорий
             $table->json('tags'); // JSON-строка с тегами
-            $table->string('image')->default(''); // путь к изображению
+            $table->string('image')->default('')->nullable(); // путь к изображению
             $table->unsignedInteger('price')->nullable(); // цена, может быть NULL
             $table->timestamps(); // поля created_at и updated_at
         });
