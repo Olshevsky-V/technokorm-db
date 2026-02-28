@@ -3,21 +3,18 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\GoodResource\Pages;
-use App\Filament\Resources\GoodResource\RelationManagers;
 use App\Models\Good;
+use App\Models\Category;
+use App\Models\Animal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
-use function Laravel\Prompts\multiselect;
 
 class GoodResource extends Resource
 {
     protected static ?string $model = Good::class;
-
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
     public static function form(Form $form): Form
@@ -27,22 +24,56 @@ class GoodResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
+                
+                // КАТЕГОРИИ - числовые ID
                 Forms\Components\Select::make('categories')
-                    ->options(
-                array_merge(
-                 //[0 => 'Без категории'],
-                        \App\Models\Category::query()->pluck('name', 'id')->toArray()
-                        )
-                    )
+                    ->options(function () {
+                        $categories = Category::query()
+                            ->pluck('name', 'id')
+                            ->mapWithKeys(function ($name, $id) {
+                                return [(int) $id => $name];
+                            })
+                            ->toArray();
+                        
+                        return [0 => 'Без категории'] + $categories;
+                    })
                     ->multiple()
-                    ->required(),
-                    
-                    
-                Forms\Components\Textarea::make('tags')
                     ->required()
-                    ->columnSpanFull(),
+                    ->afterStateHydrated(function ($component, $state) {
+                        if (is_string($state)) {
+                            $state = json_decode($state, true);
+                        }
+                        if (is_array($state)) {
+                            // Категории приводим к числам
+                            $state = array_map('intval', $state);
+                            $component->state($state);
+                        }
+                    }),
+                
+                // ТЕГИ - строковые значения
+                Forms\Components\Select::make('tags')
+                    ->options(function () {
+                        return Animal::query()
+                            ->pluck('name', 'data')  // data - это строковый ключ ("pig")
+                            ->toArray();
+                    })
+                    ->multiple()
+                    ->required()
+                    ->columnSpanFull()
+                    ->afterStateHydrated(function ($component, $state) {
+                        if (is_string($state)) {
+                            $state = json_decode($state, true);
+                        }
+                        if (is_array($state)) {
+                            // Теги оставляем как строки, просто фильтруем
+                            $state = array_filter($state, 'is_string');
+                            $component->state(array_values($state));
+                        }
+                    }),
+                
                 Forms\Components\FileUpload::make('image')
                     ->image(),
+                
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->prefix('Р'),
@@ -59,6 +90,39 @@ class GoodResource extends Resource
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('categories')
+                    ->formatStateUsing(function ($state) {
+                        if (is_string($state)) {
+                            $state = json_decode($state, true);
+                        }
+                        if (is_array($state)) {
+                            // Показываем названия категорий вместо ID
+                            $categoryNames = Category::whereIn('id', $state)
+                                ->pluck('name', 'id')
+                                ->toArray();
+                            
+                            $result = [];
+                            foreach ($state as $id) {
+                                if ($id == 0) {
+                                    $result[] = 'Без категории';
+                                } elseif (isset($categoryNames[$id])) {
+                                    $result[] = $categoryNames[$id];
+                                }
+                            }
+                            return implode(', ', $result);
+                        }
+                        return '';
+                    }),
+                Tables\Columns\TextColumn::make('tags')
+                    ->formatStateUsing(function ($state) {
+                        if (is_string($state)) {
+                            $state = json_decode($state, true);
+                        }
+                        if (is_array($state)) {
+                            return implode(', ', $state);
+                        }
+                        return '';
+                    }),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -96,25 +160,4 @@ class GoodResource extends Resource
             'edit' => Pages\EditGood::route('/{record}/edit'),
         ];
     }
-
-protected function mutateFormData(&$data): void
-{
-    // Предполагая, что categories, tags, image могут быть массивами
-    if (isset($data['categories']) && is_array($data['categories'])) {
-        $data['categories'] = json_encode($data['categories']);
-    }
-
-    if (isset($data['tags']) && is_array($data['tags'])) {
-        $data['tags'] = json_encode($data['tags']);
-    }
-
-    if (isset($data['image']) && is_array($data['image'])) {
-        $data['image'] = json_encode($data['image']);
-    }
-
-    // Остальной код...
-    if (!in_array(0, $data['categories'] ?? [], true)) {
-        $data['categories'][] = 0;
-    }
-}
 }
