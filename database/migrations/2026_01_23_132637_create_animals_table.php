@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('animals', function (Blueprint $table) {
             $table->increments('id'); // автоинкрементный первичный ключ
-            $table->string('Data', 255);
-            $table->string('Name', 255);
-            $table->text('Description')->nullable();
-            $table->string('img', 255)->nullable();
+            $table->string('data', 255);
+            $table->string('name', 255);
+            $table->text('description')->nullable();
+            $table->string('image', 255)->nullable();
         });
     }
 

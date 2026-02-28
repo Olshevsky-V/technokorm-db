@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->increments('id'); // автоинкрементный первичный ключ
-            $table->string('Name', 255);
-            $table->text('Description')->nullable();
-            $table->string('img', 255)->nullable();
+            $table->string('name', 255);
+            $table->text('description')->nullable();
+            $table->string('image', 255)->nullable();
         });
     }
 

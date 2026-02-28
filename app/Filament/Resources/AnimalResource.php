@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\AnimalResource\Pages;
+use App\Filament\Resources\AnimalResource\RelationManagers;
+use App\Models\Animal;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class AnimalResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = Animal::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -23,6 +23,9 @@ class CategoryResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\TextInput::make('Data')
+                    ->required()
+                    ->maxLength(255),
                 Forms\Components\TextInput::make('Name')
                     ->required()
                     ->maxLength(255),
@@ -37,6 +40,8 @@ class CategoryResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('Data')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('Name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('img')
@@ -65,9 +70,9 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListAnimals::route('/'),
+            'create' => Pages\CreateAnimal::route('/create'),
+            'edit' => Pages\EditAnimal::route('/{record}/edit'),
         ];
     }
 }
