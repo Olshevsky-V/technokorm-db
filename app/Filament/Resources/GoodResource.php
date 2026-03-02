@@ -51,24 +51,23 @@ class GoodResource extends Resource
                     }),
                 
                 // ТЕГИ - строковые значения
+                
                 Forms\Components\Select::make('tags')
                     ->options(function () {
-                        return Animal::query()
-                            ->pluck('name', 'data')  // data - это строковый ключ ("pig")
-                            ->toArray();
+        return Animal::query()
+            ->pluck('name', 'data')  // data - строковый ключ ("pig" => "Свинья")
+            ->toArray();
                     })
                     ->multiple()
                     ->required()
                     ->columnSpanFull()
-                    ->afterStateHydrated(function ($component, $state) {
-                        if (is_string($state)) {
-                            $state = json_decode($state, true);
-                        }
+                    // Убираем afterStateHydrated - он не нужен, т.к. у вас есть $casts
+                    ->dehydrateStateUsing(function ($state) {
+                        // Гарантируем, что сохраняем только строки
                         if (is_array($state)) {
-                            // Теги оставляем как строки, просто фильтруем
-                            $state = array_filter($state, 'is_string');
-                            $component->state(array_values($state));
+                            return array_values(array_filter($state, 'is_string'));
                         }
+                        return [];
                     }),
                 
                 Forms\Components\FileUpload::make('image')

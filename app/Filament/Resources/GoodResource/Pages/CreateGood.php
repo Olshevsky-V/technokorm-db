@@ -11,7 +11,7 @@ class CreateGood extends CreateRecord
 
     protected function mutateFormDataBeforeCreate(array $data): array
     {
-        // ОБРАБОТКА КАТЕГОРИЙ (числовые ID)
+        // ОБРАБОТКА КАТЕГОРИЙ (числовые ID) - С АВТОМАТИЧЕСКИМ 0
         if (isset($data['categories'])) {
             // Декодируем если строка
             $categories = is_string($data['categories']) 
@@ -24,7 +24,7 @@ class CreateGood extends CreateRecord
             // Приводим ВСЕ элементы к числам
             $categories = array_map('intval', $categories);
             
-            // Добавляем 0
+            // АВТОМАТИЧЕСКИ ДОБАВЛЯЕМ 0
             if (!in_array(0, $categories, true)) {
                 $categories[] = 0;
             }
@@ -36,10 +36,11 @@ class CreateGood extends CreateRecord
             // Кодируем с числовыми индексами
             $data['categories'] = json_encode(array_values($categories), JSON_NUMERIC_CHECK);
         } else {
+            // Если категорий нет, создаем массив только с 0
             $data['categories'] = json_encode([0]);
         }
 
-        // ОБРАБОТКА ТЕГОВ (строковые значения)
+        // ОБРАБОТКА ТЕГОВ (строковые значения) - С АВТОМАТИЧЕСКИМ "all"
         if (isset($data['tags'])) {
             // Декодируем если строка
             $tags = is_string($data['tags']) 
@@ -54,16 +55,22 @@ class CreateGood extends CreateRecord
                 return is_string($tag) && !empty($tag);
             });
             
+            // АВТОМАТИЧЕСКИ ДОБАВЛЯЕМ "all"
+            if (!in_array("all", $tags, true)) {
+                $tags[] = "all";
+            }
+            
             // Убираем дубликаты
             $tags = array_unique($tags);
             
             // Переиндексируем
             $tags = array_values($tags);
             
-            // Кодируем как есть (строки останутся строками)
+            // Кодируем как есть
             $data['tags'] = json_encode($tags);
         } else {
-            $data['tags'] = json_encode([]);
+            // Если тегов нет, создаем массив только с "all"
+            $data['tags'] = json_encode(["all"]);
         }
 
         return $data;
