@@ -15,7 +15,7 @@ use Filament\Tables\Table;
 class GoodResource extends Resource
 {
     protected static ?string $model = Good::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-shopping-bag';
 
     public static function form(Form $form): Form
     {
@@ -23,8 +23,9 @@ class GoodResource extends Resource
             ->schema([
                 Forms\Components\TextInput::make('name')
                     ->required()
-                    ->maxLength(255),
-                
+                    ->maxLength(255)
+                    ->columnSpan(2),
+                    
                 // КАТЕГОРИИ - числовые ID
                 Forms\Components\Select::make('categories')
                     ->options(function () {
@@ -48,7 +49,8 @@ class GoodResource extends Resource
                             $state = array_map('intval', $state);
                             $component->state($state);
                         }
-                    }),
+                    })
+                    ->columnSpan(1),
                 
                 // ТЕГИ - строковые значения
                 
@@ -68,11 +70,14 @@ class GoodResource extends Resource
                             return array_values(array_filter($state, 'is_string'));
                         }
                         return [];
-                    }),
+                    })
+                    ->columnSpan(1),
                 
                 Forms\Components\FileUpload::make('image')
-                    ->image(),
-                
+                    ->image()
+                    ->disk('public')
+                    ->directory( "goods/" . date('Y') . '/' . date('m'))
+                    ->visibility('public'),
                 Forms\Components\TextInput::make('price')
                     ->numeric()
                     ->prefix('Р'),
@@ -86,6 +91,7 @@ class GoodResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
+                    
                 Tables\Columns\TextColumn::make('price')
                     ->money()
                     ->sortable(),

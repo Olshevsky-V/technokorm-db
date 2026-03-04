@@ -17,22 +17,25 @@ class AnimalResource extends Resource
 {
     protected static ?string $model = Animal::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-heart';
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('Data')
+                Forms\Components\TextInput::make('data')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('Name')
+                Forms\Components\TextInput::make('name')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('Description')
+                Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
-                Forms\Components\TextInput::make('img')
-                    ->maxLength(255),
+                Forms\Components\FileUpload::make('image')
+                    ->image()
+                    ->disk('public')
+                    ->directory( "animals")
+                    ->visibility('public'),
             ]);
     }
 
@@ -40,11 +43,11 @@ class AnimalResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('Data')
+                Tables\Columns\TextColumn::make('data')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('Name')
+                Tables\Columns\TextColumn::make('name')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('img')
+                Tables\Columns\ImageColumn::make('image')
                     ->searchable(),
             ])
             ->filters([
