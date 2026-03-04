@@ -17,7 +17,46 @@ return new class extends Migration
             $table->string('name', 255);
             $table->text('description')->nullable();
             $table->string('image', 255)->nullable();
+            $table->timestamps();
         });
+
+        DB::table('animals')->insert([
+            [
+                'id' => '1',
+                'data' => 'all',
+                'name' => 'Для всех',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => '2',
+                'data' => 'cattle',
+                'name' => 'Для КРС',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => '3',
+                'data' => 'horse',
+                'name' => 'Для Лошадей',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => '4',
+                'data' => 'pig',
+                'name' => 'Для Свиней',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+            [
+                'id' => '5',
+                'data' => 'bird',
+                'name' => 'Для Птиц',
+                'created_at' => now(),
+                'updated_at' => now()
+            ],
+        ]);
     }
 
     /**

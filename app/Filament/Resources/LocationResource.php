@@ -27,7 +27,6 @@ class LocationResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('addres')
-                    ->required()
                     ->maxLength(255),
                 Forms\Components\TextInput::make('name')
                     ->required()
