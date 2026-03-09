@@ -9,6 +9,11 @@ class CreateGood extends CreateRecord
 {
     protected static string $resource = GoodResource::class;
 
+    protected function getRedirectUrl(): string
+    {
+        return $this->getResource()::getUrl('index');
+    }
+
     protected function mutateFormDataBeforeCreate(array $data): array
     {
         // ОБРАБОТКА КАТЕГОРИЙ (числовые ID) - С АВТОМАТИЧЕСКИМ 0

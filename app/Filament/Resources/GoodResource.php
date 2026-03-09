@@ -73,6 +73,9 @@ class GoodResource extends Resource
                     })
                     ->columnSpan(1),
                 
+                Forms\Components\RichEditor::make('content')
+                    ->columnSpanFull(),
+                
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->disk('public')

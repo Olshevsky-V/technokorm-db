@@ -12,9 +12,6 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Category::create([
-            'name' => 'Все',
-            'id' => '0'
-        ]);
+        
     }
 }

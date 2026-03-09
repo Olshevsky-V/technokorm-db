@@ -12,9 +12,6 @@ class AnimalSeeder extends Seeder
      */
     public function run(): void
     {
-        \App\Models\Animal::create([
-            'name' => 'Для всех',
-            'data' => 'all'
-        ]);
+        
     }
 }
