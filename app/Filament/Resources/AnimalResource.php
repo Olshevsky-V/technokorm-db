@@ -34,7 +34,7 @@ class AnimalResource extends Resource
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->disk('public')
-                    ->directory( "animals")
+                    ->directory( "categories")
                     ->visibility('public'),
             ]);
     }

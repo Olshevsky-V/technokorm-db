@@ -10,7 +10,7 @@ class Good extends Model
     use HasFactory;
     
     protected $table = "goods";
-    protected $fillable = ['name', 'categories', 'tags', 'image', 'price'];
+    protected $fillable = ['name', 'categories', 'tags', 'description', 'content', 'image', 'price'];
     
     protected $casts = [
         'categories' => 'array',

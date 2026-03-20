@@ -15,22 +15,22 @@ class GoodSeeder extends Seeder
     
         \App\Models\Good::create([
             'name' => 'Ракушка морская кормовая для птицы',
-            'categories' => [0, 3],
-            'tags' => ['all', 'bird'],
+            'categories' => json_encode([0, 3]),
+            'tags' => json_encode(['all', 'bird']),
             
             'image' => 'goods/sample/conch.jpg'
             ]);
         \App\Models\Good::create([
             'name' => 'ЗЦМ для телят',
-            'categories' => [0, 5],
-            'tags' => ['all', 'cattle'],
+            'categories' => json_encode([0, 5]),
+            'tags' => json_encode(['all', 'cattle']),
             
             'image' => 'goods/sample/wms.jpg'
             ]);
         \App\Models\Good::create([
             'name' => 'Премиксы для поросят',
-            'categories' => [0, 6],
-            'tags' => ['all', 'pig'],
+            'categories' => json_encode([0, 6]),
+            'tags' => json_encode(['all', 'pig']),
             
             'image' => 'goods/sample/pig-premixes.jpg'
             ]);

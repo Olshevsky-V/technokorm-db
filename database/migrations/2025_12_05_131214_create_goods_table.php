@@ -12,6 +12,7 @@ class CreateGoodsTable extends Migration
             $table->string('name');
             $table->json('categories'); // JSON для массива категорий
             $table->json('tags'); // JSON-строка с тегами
+            $table->text('description')->nullable();
             $table->json('content')->nullable();
             $table->string('image')->default('https://placehold.net/default.png')->nullable(); // путь к изображению
             $table->unsignedInteger('price')->nullable(); // цена, может быть NULL

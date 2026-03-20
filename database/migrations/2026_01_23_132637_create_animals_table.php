@@ -25,6 +25,7 @@ return new class extends Migration
                 'id' => '1',
                 'data' => 'all',
                 'name' => 'Для всех',
+                'image' => '',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -32,6 +33,7 @@ return new class extends Migration
                 'id' => '2',
                 'data' => 'cattle',
                 'name' => 'Для КРС',
+                'image' => 'categories/cattle.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -39,6 +41,7 @@ return new class extends Migration
                 'id' => '3',
                 'data' => 'horse',
                 'name' => 'Для Лошадей',
+                'image' => 'categories/horse.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -46,6 +49,7 @@ return new class extends Migration
                 'id' => '4',
                 'data' => 'pig',
                 'name' => 'Для Свиней',
+                'image' => 'categories/pig.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
             ],
@@ -53,6 +57,7 @@ return new class extends Migration
                 'id' => '5',
                 'data' => 'bird',
                 'name' => 'Для Птиц',
+                'image' => 'categories/bird.jpg',
                 'created_at' => now(),
                 'updated_at' => now()
             ],

@@ -56,9 +56,9 @@ class GoodResource extends Resource
                 
                 Forms\Components\Select::make('tags')
                     ->options(function () {
-        return Animal::query()
-            ->pluck('name', 'data')  // data - строковый ключ ("pig" => "Свинья")
-            ->toArray();
+                        return Animal::query()
+                    ->pluck('name', 'data')  // data - строковый ключ ("pig" => "Свинья")
+                    ->toArray();
                     })
                     ->multiple()
                     ->required()
@@ -73,6 +73,9 @@ class GoodResource extends Resource
                     })
                     ->columnSpan(1),
                 
+                Forms\Components\TextArea::make('description')
+                    ->columnSpanFull(),
+                      
                 Forms\Components\RichEditor::make('content')
                     ->columnSpanFull(),
                 
