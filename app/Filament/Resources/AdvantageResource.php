@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BannerResource\Pages;
-use App\Filament\Resources\BannerResource\RelationManagers;
-use App\Models\Banner;
+use App\Filament\Resources\AdvantageResource\Pages;
+use App\Filament\Resources\AdvantageResource\RelationManagers;
+use App\Models\Advantage;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
@@ -13,9 +13,9 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BannerResource extends Resource
+class AdvantageResource extends Resource
 {
-    protected static ?string $model = Banner::class;
+    protected static ?string $model = Advantage::class;
 
     protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
 
@@ -26,26 +26,14 @@ class BannerResource extends Resource
                 Forms\Components\TextInput::make('title')
                     ->required()
                     ->maxLength(255),
-                Forms\Components\TextInput::make('header')
+                Forms\Components\TextInput::make('descrtiption')
+                    ->required()
                     ->maxLength(255),
-                Forms\Components\Textarea::make('description')
-                    ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
                     ->image()
                     ->disk('public')
-                    ->directory('banners')
+                    ->directory( "logo")
                     ->visibility('public'),
-                Forms\Components\TextInput::make('header-color')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('text-color')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('background-color')
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('link')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\Toggle::make('is-active')
-                    ->required(),
             ]);
     }
 
@@ -55,19 +43,9 @@ class BannerResource extends Resource
             ->columns([
                 Tables\Columns\TextColumn::make('title')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('header')
+                Tables\Columns\TextColumn::make('descrtiption')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\TextColumn::make('header-color')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('text-color')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('background-color')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('link')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('is-active')
-                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -100,9 +78,9 @@ class BannerResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBanners::route('/'),
-            'create' => Pages\CreateBanner::route('/create'),
-            'edit' => Pages\EditBanner::route('/{record}/edit'),
+            'index' => Pages\ListAdvantages::route('/'),
+            'create' => Pages\CreateAdvantage::route('/create'),
+            'edit' => Pages\EditAdvantage::route('/{record}/edit'),
         ];
     }
 }
