@@ -31,7 +31,10 @@ class BannerResource extends Resource
                 Forms\Components\Textarea::make('description')
                     ->columnSpanFull(),
                 Forms\Components\FileUpload::make('image')
-                    ->image(),
+                    ->image()
+                    ->disk('public')
+                    ->directory( "banners")
+                    ->visibility('public'),,
                 Forms\Components\TextInput::make('header-color')
                     ->maxLength(255),
                 Forms\Components\TextInput::make('text-color')
